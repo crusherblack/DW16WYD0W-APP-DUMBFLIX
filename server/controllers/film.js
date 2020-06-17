@@ -4,7 +4,7 @@ const { response } = require('express');
 
 exports.getFilm = async (req, res) => {
 	try {
-		const { page: pageQuery, limit: limitQuery } = req.query;
+		const { page: pageQuery, limit: limitQuery, categoryId } = req.query;
 
 		const page = pageQuery ? parseInt(pageQuery) - 1 : 0;
 		const pageSize = limitQuery ? parseInt(limitQuery) : 10;
@@ -19,31 +19,38 @@ exports.getFilm = async (req, res) => {
 			};
 		};
 
-		const film = await Film.findAll({
-			include: [
-				{
-					model: Episode,
-					as: 'episodes',
-					attributes: {
-						exclude: [ 'createdAt', 'updatedAt', 'filmId', 'FilmId' ]
-					}
-				},
-				{
-					model: Category,
-					as: 'category',
-					attributes: {
-						exclude: [ 'createdAt', 'updatedAt' ]
-					}
+		const film = await Film.findAll(
+			{
+				where: {
+					categoryId: categoryId ? categoryId : ''
 				}
-			],
-			attributes: {
-				exclude: [ 'createdAt', 'updatedAt', 'categoryId' ]
 			},
-			...paginate({
-				page,
-				pageSize
-			})
-		});
+			{
+				include: [
+					{
+						model: Episode,
+						as: 'episodes',
+						attributes: {
+							exclude: [ 'createdAt', 'updatedAt', 'filmId', 'FilmId' ]
+						}
+					},
+					{
+						model: Category,
+						as: 'category',
+						attributes: {
+							exclude: [ 'createdAt', 'updatedAt' ]
+						}
+					}
+				],
+				attributes: {
+					exclude: [ 'createdAt', 'updatedAt', 'categoryId' ]
+				},
+				...paginate({
+					page,
+					pageSize
+				})
+			}
+		);
 
 		if (film) {
 			return res.send({

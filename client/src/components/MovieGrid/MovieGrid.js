@@ -5,7 +5,7 @@ import './MovieGrid.css';
 const MovieGrid = ({ movieList, title, filter, type }) => {
 	const amount = filter - 1;
 
-	const moviesType = movieList.filter((movie) => movie.type == type);
+	const moviesType = movieList.filter((movie) => movie.category.name === type);
 	const moviesTop = moviesType.filter((movie, index) => index <= amount);
 
 	const list = moviesTop.map((movie) => <MovieCard movie={movie} key={movie.id} />);

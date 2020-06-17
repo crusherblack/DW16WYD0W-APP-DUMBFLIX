@@ -9,8 +9,6 @@ import { movieList } from '../fakedata/movie';
 import { heroImage1 } from '../fakedata/heroimage';
 
 const Home = ({ getFilms, film: { loading, films } }) => {
-	console.log(films, loading);
-
 	useEffect(
 		() => {
 			getFilms();
@@ -21,8 +19,8 @@ const Home = ({ getFilms, film: { loading, films } }) => {
 	return (
 		<div>
 			<HeroImage heroImage={heroImage1} />
-			<MovieGrid movieList={movieList} title="TV Series" filter={6} type="tv" />
-			<MovieGrid movieList={movieList} title="Movies" filter={6} type="movies" />
+			<MovieGrid movieList={films} title="TV Series" filter={6} type="TV Shows" />
+			<MovieGrid movieList={films} title="Movies" filter={6} type="Movies" />
 		</div>
 	);
 };
