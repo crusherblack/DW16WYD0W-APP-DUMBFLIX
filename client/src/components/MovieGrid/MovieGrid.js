@@ -18,6 +18,9 @@ const MovieGrid = ({
 		},
 		[ getFilms ]
 	);
+	//Ntar coba implemetnasi masukin semua array by category trus filter lagi
+
+	console.log(films);
 
 	const list = films.map((movie) => <MovieCard movie={movie} key={movie.id} />);
 
