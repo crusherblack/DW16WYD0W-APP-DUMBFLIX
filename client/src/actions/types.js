@@ -1,2 +1,6 @@
-export const GET_FILMS = 'GET_FILMS';
-export const ERROR = 'ERROR';
+export const GET_FILMS_TVSERIES = "GET_FILMS_TVSERIES";
+export const GET_FILMS_MOVIES = "GET_FILMS_MOVIES";
+export const GET_FILMS_DETAILS = "GET_FILMS_DETAILS";
+export const LOADING_TRUE = "LOADING_TRUE";
+export const GET_FILMS_ALL = "GET_FILMS_ALL";
+export const ERROR = "ERROR";

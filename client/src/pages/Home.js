@@ -1,19 +1,47 @@
-import React from 'react';
+import React, { useEffect } from "react";
 
-import HeroImage from '../components/HeroImage/HeroImage';
-import MovieGrid from '../components/MovieGrid/MovieGrid';
+import HeroImage from "../components/HeroImage/HeroImage";
+import MovieGrid from "../components/MovieGrid/MovieGrid";
 
-import { heroImage1 } from '../fakedata/heroimage';
+import { heroImage1 } from "../fakedata/heroimage";
 
-const Home = () => {
-	return (
-		<div>
-			<HeroImage heroImage={heroImage1} />
-			<MovieGrid title="TV Series" limit={6} type={1} />{' '}
-			{/*Berdasarkan id category, Krn category cuma 2 baiknya sih static aja, tp krn dinamis terpaksa gini*/}
-			<MovieGrid title="Movies" limit={6} type={2} />
-		</div>
-	);
+import { connect } from "react-redux";
+import { getFilmsMovies, getFilmsTVSeries } from "../actions/film";
+import PropTypes from "prop-types";
+
+const Home = ({
+  getFilmsMovies,
+  getFilmsTVSeries,
+  films: { filmsMovies, filmsTVSeries, loading },
+}) => {
+  useEffect(() => {
+    getFilmsMovies(6);
+    getFilmsTVSeries(6);
+  }, [getFilmsMovies, getFilmsTVSeries]);
+
+  return loading ? (
+    <>
+      <p>KOSONG</p>
+    </>
+  ) : (
+    <div>
+      <HeroImage heroImage={heroImage1} />
+      <MovieGrid title="TV Series" films={filmsTVSeries} />
+      <MovieGrid title="Movies" films={filmsMovies} />
+    </div>
+  );
 };
 
-export default Home;
+Home.propTypes = {
+  getFilmsMovies: PropTypes.func.isRequired,
+  getFilmsTVSeries: PropTypes.func.isRequired,
+  films: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  films: state.film,
+});
+
+export default connect(mapStateToProps, { getFilmsMovies, getFilmsTVSeries })(
+  Home
+);
