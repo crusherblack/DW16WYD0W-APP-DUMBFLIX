@@ -4,7 +4,7 @@ import MovieGrid from "../components/MovieGrid/MovieGrid";
 import { heroImage3 } from "../fakedata/heroimage";
 
 import { connect } from "react-redux";
-import { getFilmsMovies } from "../actions/film";
+import { getFilmsMovies } from "../redux/actions/film";
 import PropTypes from "prop-types";
 
 const MoviesSection = ({ getFilmsMovies, films: { filmsMovies, loading } }) => {

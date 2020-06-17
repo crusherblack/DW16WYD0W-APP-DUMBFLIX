@@ -19,12 +19,15 @@ exports.getFilm = async (req, res) => {
       };
     };
 
+    let filter = {};
+    if (categoryId) {
+      filter.categoryId = categoryId;
+    }
+
     const film = await Film.findAll(
       Object.assign(
         {
-          where: {
-            categoryId: categoryId,
-          },
+          where: filter,
         },
         {
           include: [
@@ -60,7 +63,6 @@ exports.getFilm = async (req, res) => {
         paginationInfo: {
           currentPage: page + 1,
           limit: limitQuery,
-          totalData: await Film.count(),
         },
       });
     } else {

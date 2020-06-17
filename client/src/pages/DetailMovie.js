@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { getDetailsFilm } from "../actions/film";
+import { useDispatch, useSelector } from "react-redux";
+import { getDetailsFilm } from "../redux/actions/film";
 import PropTypes from "prop-types";
 
 import VideoThumbnail from "../components/VideoThumbnail/VideoThumbnail";
@@ -20,7 +21,7 @@ const DetailMovie = ({
 }) => {
   useEffect(() => {
     getDetailsFilm(match.params.id);
-  }, []);
+  }, [getDetailsFilm]);
 
   let history = useHistory();
   let role = "admin";
@@ -29,16 +30,16 @@ const DetailMovie = ({
     history.push("/add-episode");
   };
 
+  const { category } = filmDetails;
+
   return loading == true ? (
-    <>kosong</>
-  ) : (
+    <div style={{ top: "500px" }}>rendering...</div>
+  ) : category.id ? (
     <div style={{ marginTop: "70px" }}>
       <VideoThumbnail
-        thumbnail={
-          filmDetails.category.id === 1 ? tvThumbnail : moviesThumbnail
-        }
+        thumbnail={category.id == 1 ? tvThumbnail : moviesThumbnail}
       />
-      {role == "admin" && filmDetails.category.id == "tv" ? (
+      {role == "admin" && category.id == 1 ? (
         <div
           style={{
             height: "50px",
@@ -62,14 +63,14 @@ const DetailMovie = ({
       ) : null}
       <div className="details">
         <Description filmDetails={filmDetails} />
-        {filmDetails.category.id === 1 ? (
+        {category.id == 1 ? (
           <Episode name={filmDetails.title} />
         ) : (
           <Movie name={filmDetails.title} />
         )}
       </div>
     </div>
-  );
+  ) : null;
 };
 
 DetailMovie.propTypes = {

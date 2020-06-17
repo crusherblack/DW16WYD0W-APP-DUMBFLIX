@@ -15,12 +15,10 @@ export const getFilmsAll = (limit) => async (dispatch) => {
     type: LOADING_TRUE,
   });
   try {
-    let res = await axios.get(
-      `/api/v1/film?page=1&limit=${limit}&categoryId=2`
-    );
+    let res = await axios.get(`/api/v1/film?page=1&limit=${limit}`);
 
     dispatch({
-      type: GET_FILMS_MOVIES,
+      type: GET_FILMS_ALL,
       payload: res.data.data,
     });
   } catch (err) {
@@ -87,6 +85,7 @@ export const getDetailsFilm = (id) => async (dispatch) => {
       payload: res.data.data,
     });
   } catch (err) {
+    console.log(err);
     dispatch({
       type: ERROR,
       payload: "error",

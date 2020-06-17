@@ -6,7 +6,7 @@ import MovieGrid from "../components/MovieGrid/MovieGrid";
 import { heroImage1 } from "../fakedata/heroimage";
 
 import { connect } from "react-redux";
-import { getFilmsMovies, getFilmsTVSeries } from "../actions/film";
+import { getFilmsMovies, getFilmsTVSeries } from "../redux/actions/film";
 import PropTypes from "prop-types";
 
 const Home = ({
