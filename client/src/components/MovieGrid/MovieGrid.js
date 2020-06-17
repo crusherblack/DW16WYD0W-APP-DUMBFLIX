@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MovieCard from '../MovieCard/MovieCard';
 import './MovieGrid.css';
+import { connect } from 'react-redux';
+import { getFilms } from '../../actions/film';
+import PropTypes from 'prop-types';
 
-const MovieGrid = ({ movieList, title, filter, type }) => {
-	const amount = filter - 1;
+const MovieGrid = ({
+	getFilms,
+	film: { loading, films },
+	title,
+	limit,
+	type: categoryTypeId
+}) => {
+	useEffect(
+		() => {
+			getFilms(limit, categoryTypeId);
+		},
+		[ getFilms ]
+	);
 
-	const moviesType = movieList.filter((movie) => movie.category.name === type);
-	const moviesTop = moviesType.filter((movie, index) => index <= amount);
-
-	const list = moviesTop.map((movie) => <MovieCard movie={movie} key={movie.id} />);
+	const list = films.map((movie) => <MovieCard movie={movie} key={movie.id} />);
 
 	return (
 		<div className="movie-grid">
@@ -20,4 +31,13 @@ const MovieGrid = ({ movieList, title, filter, type }) => {
 	);
 };
 
-export default MovieGrid;
+MovieGrid.propTypes = {
+	getFilms: PropTypes.func.isRequired,
+	film: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+	film: state.film
+});
+
+export default connect(mapStateToProps, { getFilms })(MovieGrid);

@@ -23,7 +23,8 @@ exports.getFilm = async (req, res) => {
 			{
 				where: {
 					categoryId: categoryId ? categoryId : ''
-				}
+				},
+				order: [ [ 'createdAt', 'DESC' ] ]
 			},
 			{
 				include: [

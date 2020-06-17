@@ -3,9 +3,11 @@ import axios from 'axios';
 import { GET_FILMS, ERROR } from './types';
 
 //Get Films
-export const getFilms = () => async (dispatch) => {
+export const getFilms = (limit, categoryTypeId) => async (dispatch) => {
 	try {
-		let res = await axios.get('/api/v1/film?page=1&limit=6');
+		let res = await axios.get(
+			`/api/v1/film?page=1&limit=${limit}&categoryId=${categoryTypeId}`
+		);
 
 		dispatch({
 			type: GET_FILMS,
