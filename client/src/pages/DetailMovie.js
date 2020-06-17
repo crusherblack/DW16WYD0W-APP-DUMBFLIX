@@ -32,9 +32,9 @@ const DetailMovie = ({
 
   const { category } = filmDetails;
 
-  return loading == true ? (
+  return loading == true && category.id ? (
     <div style={{ top: "500px" }}>rendering...</div>
-  ) : category.id ? (
+  ) : (
     <div style={{ marginTop: "70px" }}>
       <VideoThumbnail
         thumbnail={category.id == 1 ? tvThumbnail : moviesThumbnail}
@@ -70,7 +70,7 @@ const DetailMovie = ({
         )}
       </div>
     </div>
-  ) : null;
+  );
 };
 
 DetailMovie.propTypes = {
