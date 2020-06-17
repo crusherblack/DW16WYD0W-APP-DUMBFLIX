@@ -1,15 +1,28 @@
-const { Film, Category, Episode } = require('../models');
+const {
+	Film,
+	Category,
+	Episode
+} = require('../models');
 const Joi = require('@hapi/joi');
-const { response } = require('express');
+const {
+	response
+} = require('express');
 
 exports.getFilm = async (req, res) => {
 	try {
-		const { page: pageQuery, limit: limitQuery, categoryId } = req.query;
+		const {
+			page: pageQuery,
+			limit: limitQuery,
+			categoryId
+		} = req.query;
 
 		const page = pageQuery ? parseInt(pageQuery) - 1 : 0;
 		const pageSize = limitQuery ? parseInt(limitQuery) : 10;
 
-		const paginate = ({ page, pageSize }) => {
+		const paginate = ({
+			page,
+			pageSize
+		}) => {
 			const offset = page * pageSize;
 			const limit = pageSize;
 
@@ -20,37 +33,36 @@ exports.getFilm = async (req, res) => {
 		};
 
 		const film = await Film.findAll(
-			{
-				where: {
-					categoryId: categoryId ? categoryId : ''
-				},
-				order: [ [ 'createdAt', 'DESC' ] ]
-			},
-			{
-				include: [
-					{
-						model: Episode,
-						as: 'episodes',
-						attributes: {
-							exclude: [ 'createdAt', 'updatedAt', 'filmId', 'FilmId' ]
-						}
+			Object.assign({
+					where: {
+						categoryId: categoryId
 					},
-					{
-						model: Category,
-						as: 'category',
-						attributes: {
-							exclude: [ 'createdAt', 'updatedAt' ]
+				}, {
+					include: [
+						/*{
+													model: Episode,
+													as: 'episodes',
+													attributes: {
+														exclude: ['createdAt', 'updatedAt', 'filmId', 'FilmId']
+													}
+												},*/
+						{
+							model: Category,
+							as: 'category',
+							attributes: {
+								exclude: ['createdAt', 'updatedAt']
+							}
 						}
-					}
-				],
-				attributes: {
-					exclude: [ 'createdAt', 'updatedAt', 'categoryId' ]
+					],
+					attributes: {
+						exclude: ['createdAt', 'updatedAt', 'categoryId']
+					},
 				},
-				...paginate({
+				paginate({
 					page,
 					pageSize
-				})
-			}
+				}),
+			),
 		);
 
 		if (film) {
@@ -82,28 +94,29 @@ exports.getFilm = async (req, res) => {
 //gak pake tapi ini adalah hasMany Relationship
 exports.getFilmEpisodeCategory = async (req, res) => {
 	try {
-		const { id: IdFilm } = req.params;
+		const {
+			id: IdFilm
+		} = req.params;
 
 		const film = await Film.findAll({
-			include: [
-				{
+			include: [{
 					model: Episode,
 					as: 'episodes',
 					attributes: {
-						exclude: [ 'createdAt', 'updatedAt' ]
+						exclude: ['createdAt', 'updatedAt']
 					}
 				},
 				{
 					model: Category,
 					as: 'category',
 					attributes: {
-						exclude: [ 'createdAt', 'updatedAt' ]
+						exclude: ['createdAt', 'updatedAt']
 					}
 				}
 			],
 
 			attributes: {
-				exclude: [ 'createdAt', 'updatedAt', 'categoryId' ]
+				exclude: ['createdAt', 'updatedAt', 'categoryId']
 			}
 		});
 
@@ -130,7 +143,9 @@ exports.getFilmEpisodeCategory = async (req, res) => {
 
 exports.getDetailFilm = async (req, res) => {
 	try {
-		const { id } = req.params;
+		const {
+			id
+		} = req.params;
 		const film = await Film.findOne({
 			where: {
 				id
@@ -139,11 +154,11 @@ exports.getDetailFilm = async (req, res) => {
 				model: Category,
 				as: 'category',
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt' ]
+					exclude: ['createdAt', 'updatedAt']
 				}
 			},
 			attributes: {
-				exclude: [ 'createdAt', 'updatedAt', 'categoryId' ]
+				exclude: ['createdAt', 'updatedAt', 'categoryId']
 			}
 		});
 
@@ -175,7 +190,9 @@ exports.addFilm = async (req, res) => {
 			category: Joi.required(),
 			description: Joi.string().min(10).required()
 		});
-		const { error } = schema.validate(req.body);
+		const {
+			error
+		} = schema.validate(req.body);
 
 		if (error)
 			return res.status(400).send({
@@ -184,7 +201,9 @@ exports.addFilm = async (req, res) => {
 				}
 			});
 
-		const { category } = req.body;
+		const {
+			category
+		} = req.body;
 
 		const cekCategory = await Category.findOne({
 			where: {
@@ -211,11 +230,11 @@ exports.addFilm = async (req, res) => {
 					model: Category,
 					as: 'category',
 					attributes: {
-						exclude: [ 'createdAt', 'updatedAt' ]
+						exclude: ['createdAt', 'updatedAt']
 					}
 				},
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt' ]
+					exclude: ['createdAt', 'updatedAt']
 				}
 			});
 
@@ -246,7 +265,9 @@ exports.editFilm = async (req, res) => {
 			category: Joi.required(),
 			description: Joi.string().min(10).required()
 		});
-		const { error } = schema.validate(req.body);
+		const {
+			error
+		} = schema.validate(req.body);
 
 		if (error)
 			return res.status(400).send({
@@ -255,21 +276,24 @@ exports.editFilm = async (req, res) => {
 				}
 			});
 
-		const { id } = req.params;
+		const {
+			id
+		} = req.params;
 
-		const { category: { id: categoryId } } = req.body;
-
-		const film = await Film.update(
-			{
-				...req.body,
-				categoryId
-			},
-			{
-				where: {
-					id
-				}
+		const {
+			category: {
+				id: categoryId
 			}
-		);
+		} = req.body;
+
+		const film = await Film.update({
+			...req.body,
+			categoryId
+		}, {
+			where: {
+				id
+			}
+		});
 
 		if (film) {
 			const filmResult = await Film.findOne({
@@ -280,11 +304,11 @@ exports.editFilm = async (req, res) => {
 					model: Category,
 					as: 'category',
 					attributes: {
-						exclude: [ 'createdAt', 'updatedAt' ]
+						exclude: ['createdAt', 'updatedAt']
 					}
 				},
 				attributes: {
-					exclude: [ 'createdAt', 'updatedAt', 'categoryId' ]
+					exclude: ['createdAt', 'updatedAt', 'categoryId']
 				}
 			});
 			return res.send({
@@ -307,7 +331,9 @@ exports.editFilm = async (req, res) => {
 
 exports.deleteFilm = async (req, res) => {
 	try {
-		const { id } = req.params;
+		const {
+			id
+		} = req.params;
 		const film = await Film.findOne({
 			where: {
 				id
