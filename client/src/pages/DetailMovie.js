@@ -32,7 +32,7 @@ const DetailMovie = ({
 
   const { category } = filmDetails;
 
-  return loading == true && category.id ? (
+  return loading ? (
     <div style={{ top: "500px" }}>rendering...</div>
   ) : (
     <div style={{ marginTop: "70px" }}>

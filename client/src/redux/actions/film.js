@@ -74,7 +74,7 @@ export const getFilmsTVSeries = (limit) => async (dispatch) => {
 };
 
 export const getDetailsFilm = (id) => async (dispatch) => {
-  await dispatch({
+  dispatch({
     type: LOADING_TRUE,
   });
   try {
@@ -85,7 +85,6 @@ export const getDetailsFilm = (id) => async (dispatch) => {
       payload: res.data.data,
     });
   } catch (err) {
-    console.log(err);
     dispatch({
       type: ERROR,
       payload: "error",
