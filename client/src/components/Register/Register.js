@@ -15,8 +15,6 @@ const Register = ({ showModalRegister, modalRegister, handleRegister }) => {
     address: "",
   });
 
-  console.log(formData);
-
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
