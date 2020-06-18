@@ -1,26 +1,41 @@
 import React, { useState } from "react";
 
 import Modal from "../Modal/Modal";
+import { handleRegister } from "../../redux/actions/auth";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-const Register = ({ showModalRegister, modalRegister }) => {
+const Register = ({ showModalRegister, modalRegister, handleRegister }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    fullname: "",
+    fullName: "",
     gender: "",
     phone: "",
     address: "",
   });
 
-  const { email, password, fullname, gender, phone, address } = formData;
+  console.log(formData);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const { email, password, fullName, gender, phone, address } = formData;
+
   const onSubmit = (e) => {
     e.preventDefault();
+    handleRegister(
+      email,
+      password,
+      fullName,
+      gender,
+      phone,
+      address,
+      showModalRegister
+    );
   };
+
   return (
     <div>
       {modalRegister ? (
@@ -58,9 +73,9 @@ const Register = ({ showModalRegister, modalRegister }) => {
             <input
               type="text"
               className="custom-input"
-              placeholder="Fullname"
-              value={fullname}
-              name="fullname"
+              placeholder="fullName"
+              value={fullName}
+              name="fullName"
               onChange={(e) => onChange(e)}
             />
           </div>
@@ -95,7 +110,9 @@ const Register = ({ showModalRegister, modalRegister }) => {
             />
           </div>
           <div className="form-group" style={{ marginTop: "50px" }}>
-            <button className="button-register">Register</button>
+            <button className="button-register" type="submit">
+              Register
+            </button>
           </div>
         </form>
         <p style={{ color: "#B1B1B1", fontSize: "18px" }}>
@@ -107,4 +124,13 @@ const Register = ({ showModalRegister, modalRegister }) => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  handleRegister: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { handleRegister })(Register);

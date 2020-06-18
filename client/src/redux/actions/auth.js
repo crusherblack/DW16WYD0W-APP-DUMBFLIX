@@ -32,29 +32,44 @@ export const loadUser = () => async (dispatch) => {
 };
 
 //Register User
-export const register = ({ name, email, password }) => async (dispatch) => {
+export const handleRegister = (
+  email,
+  password,
+  fullName,
+  gender,
+  phone,
+  address,
+  showModalRegister
+) => async (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
 
-  const body = JSON.stringify({ name, email, password });
+  const body = JSON.stringify({
+    email,
+    password,
+    fullName,
+    gender,
+    phone,
+    address,
+    role: 2,
+  });
 
   try {
-    const res = await API.post("/api/users", body, config);
+    const res = await API.post("/register", body, config);
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data,
+      payload: res.data.data,
     });
 
-    //ambil data user
     dispatch(loadUser());
+    showModalRegister();
   } catch (err) {
-    const errors = err.response.data.errors;
-
     dispatch({
       type: REGISTER_FAIL,
+      payload: err.response.data.error.message,
     });
   }
 };

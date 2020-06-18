@@ -92,7 +92,7 @@ exports.register = async (req, res) => {
       gender: Joi.string().required(),
       phone: Joi.string().min(10).required(),
       address: Joi.string().min(10).required(),
-      role: Joi.string().required(),
+      role: Joi.required(),
     });
     const { error } = schema.validate(req.body);
 

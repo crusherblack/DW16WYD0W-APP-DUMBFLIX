@@ -30,7 +30,7 @@ const Login = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    handleLogin(email, password, showModalLogin); //kirim email, password dan function showmodallogin
+    handleLogin(email, password, showModalLogin);
   };
 
   return (
