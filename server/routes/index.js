@@ -1,24 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const {
-	upload
-} = require('../middleware/uploadImage');
+const { upload } = require('../middleware/uploadImage');
 
-const {
-	auth,
-	authAdmin
-} = require('../middleware/auth');
+const { auth, authAdmin } = require('../middleware/auth');
 
-const {
-	login,
-	register
-} = require('../controllers/auth');
+const { login, register, cekAuth } = require('../controllers/auth');
 
-const {
-	getUser,
-	deleteUser
-} = require('../controllers/user');
+const { getUser, deleteUser } = require('../controllers/user');
 
 const {
 	getFilm,
@@ -53,6 +42,7 @@ const {
 // Authentication Routes
 router.post('/register', register);
 router.post('/login', login);
+router.get('/auth', auth, cekAuth);
 
 // User Routes
 router.get('/user', auth, authAdmin, getUser);
@@ -84,7 +74,7 @@ router.get('/episodes/:idEpisode', auth, authAdmin, getDetailEpisode);
 router.patch('/episode/:id', auth, authAdmin, editEpisode);
 router.delete('/episode/:id', auth, authAdmin, deleteEpisode);
 
-router.get('*', function (req, res) {
+router.get('*', function(req, res) {
 	res.status(404).send({
 		error: '404 Not Found'
 	});

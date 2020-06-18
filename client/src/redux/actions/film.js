@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { API } from '../../config/api';
 
 import {
 	GET_FILMS_ALL,
@@ -12,7 +12,7 @@ import {
 //Get All Films
 export const getFilmsAll = (limit) => async (dispatch) => {
 	try {
-		let res = await axios.get(`/api/v1/film?page=1&limit=${limit}`);
+		let res = await API.get(`film?page=1&limit=${limit}`);
 		dispatch({
 			type: GET_FILMS_ALL,
 			payload: res.data.data
@@ -28,7 +28,7 @@ export const getFilmsAll = (limit) => async (dispatch) => {
 //Get Films Movies
 export const getFilmsMovies = (limit) => async (dispatch) => {
 	try {
-		let res = await axios.get(`/api/v1/film?page=1&limit=${limit}&categoryId=2`);
+		let res = await API.get(`/film?page=1&limit=${limit}&categoryId=2`);
 		dispatch({
 			type: GET_FILMS_MOVIES,
 			payload: res.data.data
@@ -44,7 +44,7 @@ export const getFilmsMovies = (limit) => async (dispatch) => {
 //Get Films TVSeries
 export const getFilmsTVSeries = (limit) => async (dispatch) => {
 	try {
-		let res = await axios.get(`/api/v1/film?page=1&limit=${limit}&categoryId=1`);
+		let res = await API.get(`/film?page=1&limit=${limit}&categoryId=1`);
 		dispatch({
 			type: GET_FILMS_TVSERIES,
 			payload: res.data.data
@@ -59,7 +59,7 @@ export const getFilmsTVSeries = (limit) => async (dispatch) => {
 
 export const getDetailsFilm = (id) => async (dispatch) => {
 	try {
-		let res = await axios.get(`/api/v1/film/${id}`);
+		let res = await API.get(`/film/${id}`);
 		dispatch({
 			type: GET_FILMS_DETAILS,
 			payload: res.data.data

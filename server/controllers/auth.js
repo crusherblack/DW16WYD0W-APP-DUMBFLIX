@@ -1,9 +1,26 @@
-const {
-	User
-} = require('../models');
+const { User } = require('../models');
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
+exports.cekAuth = async (req, res) => {
+	try {
+		const user = await User.findOne({
+			where: {
+				id: req.user.id
+			},
+			attributes: {
+				exclude: [ 'createdAt', 'updatedAt', 'categoryId', 'password' ]
+			}
+		});
+		res.status(200).send({
+			data: user
+		});
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+};
 
 exports.login = async (req, res) => {
 	try {
@@ -11,9 +28,7 @@ exports.login = async (req, res) => {
 			email: Joi.string().email().min(6).required(),
 			password: Joi.string().min(6).required()
 		});
-		const {
-			error
-		} = schema.validate(req.body);
+		const { error } = schema.validate(req.body);
 
 		if (error)
 			res.status(400).send({
@@ -22,31 +37,33 @@ exports.login = async (req, res) => {
 				}
 			});
 
-		const {
-			email,
-			password
-		} = req.body;
+		const { email, password } = req.body;
 		const user = await User.findOne({
 			where: {
 				email
 			}
 		});
 
-		if (!user) return res.status(400).send({
-			message: 'Invalid Login'
-		});
+		if (!user)
+			return res.status(400).send({
+				message: 'Invalid Login'
+			});
 
 		const validPass = await bcrypt.compare(password, user.password);
 
-		if (!validPass) return res.status(400).send({
-			message: 'Invalid Login'
-		});
+		if (!validPass)
+			return res.status(400).send({
+				message: 'Invalid Login'
+			});
 
-		const token = jwt.sign({
-			id: user.id
-		}, process.env.SECRET_KEY);
+		const token = jwt.sign(
+			{
+				id: user.id
+			},
+			process.env.SECRET_KEY
+		);
 
-		res.send({
+		res.status(200).send({
 			data: {
 				email,
 				token
@@ -73,9 +90,7 @@ exports.register = async (req, res) => {
 			address: Joi.string().min(10).required(),
 			role: Joi.string().required()
 		});
-		const {
-			error
-		} = schema.validate(req.body);
+		const { error } = schema.validate(req.body);
 
 		console.log(req.body);
 
@@ -86,10 +101,7 @@ exports.register = async (req, res) => {
 				}
 			});
 
-		const {
-			email,
-			password
-		} = req.body;
+		const { email, password } = req.body;
 
 		const checkEmail = await User.findOne({
 			where: {
@@ -111,11 +123,14 @@ exports.register = async (req, res) => {
 			password: hashedPassword,
 			subscribe
 		});
-		const token = jwt.sign({
-			id: user.id
-		}, process.env.SECRET_KEY);
+		const token = jwt.sign(
+			{
+				id: user.id
+			},
+			process.env.SECRET_KEY
+		);
 
-		res.send({
+		res.status(200).send({
 			data: {
 				email,
 				token
