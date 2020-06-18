@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 const Profile = ({ auth: { user } }) => {
-  const { fullName, email, role, gender, phone, address, subscribe } = user;
+  const { fullName, email, gender, phone, address, subscribe } = user;
 
   return (
     <div className="profile-container">

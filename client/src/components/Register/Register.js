@@ -3,6 +3,21 @@ import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 
 const Register = ({ showModalRegister, modalRegister }) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    fullname: "",
+    gender: "",
+    phone: "",
+    address: "",
+  });
+
+  const { email, password, fullname, gender, phone, address } = formData;
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
   };
@@ -20,13 +35,23 @@ const Register = ({ showModalRegister, modalRegister }) => {
         <form onSubmit={(e) => onSubmit(e)}>
           <h1 style={{ marginBottom: "40px" }}>REGISTER</h1>
           <div className="form-group">
-            <input type="text" className="custom-input" placeholder="Email" />
+            <input
+              type="text"
+              className="custom-input"
+              placeholder="Email"
+              value={email}
+              name="email"
+              onChange={(e) => onChange(e)}
+            />
           </div>
           <div className="form-group">
             <input
               type="text"
               className="custom-input"
               placeholder="Password"
+              value={password}
+              name="password"
+              onChange={(e) => onChange(e)}
             />
           </div>
           <div className="form-group">
@@ -34,16 +59,40 @@ const Register = ({ showModalRegister, modalRegister }) => {
               type="text"
               className="custom-input"
               placeholder="Fullname"
+              value={fullname}
+              name="fullname"
+              onChange={(e) => onChange(e)}
             />
           </div>
           <div className="form-group">
-            <input type="text" className="custom-input" placeholder="Gender" />
+            <input
+              type="text"
+              className="custom-input"
+              placeholder="Gender"
+              value={gender}
+              name="gender"
+              onChange={(e) => onChange(e)}
+            />
           </div>
           <div className="form-group">
-            <input type="text" className="custom-input" placeholder="Phone" />
+            <input
+              type="text"
+              className="custom-input"
+              placeholder="Phone"
+              value={phone}
+              name="phone"
+              onChange={(e) => onChange(e)}
+            />
           </div>
           <div className="form-group">
-            <input type="text" className="custom-input" placeholder="Address" />
+            <input
+              type="text"
+              className="custom-input"
+              placeholder="Address"
+              value={address}
+              name="address"
+              onChange={(e) => onChange(e)}
+            />
           </div>
           <div className="form-group" style={{ marginTop: "50px" }}>
             <button className="button-register">Register</button>
