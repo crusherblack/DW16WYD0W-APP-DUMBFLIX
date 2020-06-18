@@ -10,6 +10,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
 
+import { handleLogout } from "../../redux/actions/auth";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
 const ProfileDropdown = ({ showProfileDropdown, handleLogout }) => {
   let history = useHistory();
 
@@ -102,4 +106,13 @@ const ProfileDropdown = ({ showProfileDropdown, handleLogout }) => {
   );
 };
 
-export default ProfileDropdown;
+ProfileDropdown.propTypes = {
+  handleLogout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { handleLogout })(ProfileDropdown);
