@@ -14,7 +14,13 @@ import { handleLogout } from "../../redux/actions/auth";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const ProfileDropdown = ({ showProfileDropdown, handleLogout }) => {
+const ProfileDropdown = ({
+  showProfileDropdown,
+  handleLogout,
+  auth: {
+    user: { fullName, email, role },
+  },
+}) => {
   let history = useHistory();
 
   const openProfile = () => {
@@ -56,39 +62,45 @@ const ProfileDropdown = ({ showProfileDropdown, handleLogout }) => {
             </span>
           </div>
         </div>
+        {role === 2 ? (
+          <>
+            <div className="profile-dropdown-group">
+              <div className="profile-dropdown-icon">
+                <FontAwesomeIcon icon={faMoneyCheck} className="icon" />
+              </div>
+              <div className="profile-dropdown-link">
+                <span className="submenu" onClick={() => openPayment()}>
+                  Pay
+                </span>
+              </div>
+            </div>
+          </>
+        ) : null}
+        {role === 1 ? (
+          <>
+            <div className="profile-dropdown-group">
+              <div className="profile-dropdown-icon">
+                <FontAwesomeIcon icon={faEdit} className="icon" />
+              </div>
+              <div className="profile-dropdown-link">
+                <span className="submenu" onClick={() => openTranscation()}>
+                  Transcation
+                </span>
+              </div>
+            </div>
 
-        <div className="profile-dropdown-group">
-          <div className="profile-dropdown-icon">
-            <FontAwesomeIcon icon={faMoneyCheck} className="icon" />
-          </div>
-          <div className="profile-dropdown-link">
-            <span className="submenu" onClick={() => openPayment()}>
-              Pay
-            </span>
-          </div>
-        </div>
-
-        <div className="profile-dropdown-group">
-          <div className="profile-dropdown-icon">
-            <FontAwesomeIcon icon={faEdit} className="icon" />
-          </div>
-          <div className="profile-dropdown-link">
-            <span className="submenu" onClick={() => openTranscation()}>
-              Transcation
-            </span>
-          </div>
-        </div>
-
-        <div className="profile-dropdown-group">
-          <div className="profile-dropdown-icon">
-            <FontAwesomeIcon icon={faVideo} className="icon" />
-          </div>
-          <div className="profile-dropdown-link">
-            <span className="submenu" onClick={() => openListMovie()}>
-              Film
-            </span>
-          </div>
-        </div>
+            <div className="profile-dropdown-group">
+              <div className="profile-dropdown-icon">
+                <FontAwesomeIcon icon={faVideo} className="icon" />
+              </div>
+              <div className="profile-dropdown-link">
+                <span className="submenu" onClick={() => openListMovie()}>
+                  Film
+                </span>
+              </div>
+            </div>
+          </>
+        ) : null}
 
         <hr style={{ marginBottom: "18px" }} />
         <div className="profile-dropdown-group">

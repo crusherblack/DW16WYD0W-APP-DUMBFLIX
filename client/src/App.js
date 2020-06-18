@@ -20,6 +20,7 @@ import ListMovie from "./pages/Movie/ListMovie";
 import AddMovie from "./pages/Movie/AddMovie";
 import AddEpisode from "./pages/Episode";
 
+import PrivateAdminRoute from "./components/Routing/PrivateAdminRoute";
 import PrivateRoute from "./components/Routing/PrivateRoute";
 import NotFound from "./components/404/NotFound";
 
@@ -36,8 +37,6 @@ function App() {
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
-
-  const [isLogin, setLogin] = useState(false);
 
   const [modalLogin, setModalLogin] = useState(false);
   const [modalRegister, setModalRegister] = useState(false);
@@ -65,42 +64,24 @@ function App() {
               <Route exact path="/" component={Home} />
               <Route exact path="/tv-series" component={TVSection} />
               <Route exact path="/movies" component={MoviesSection} />
-              <Route exact path="/detail/:id" component={DetailMovie} />
-              <PrivateRoute
-                exact
-                path="/profile"
-                component={Profile}
-                isLogin={isLogin}
-              />
-              <PrivateRoute
-                exact
-                path="/payment"
-                component={Payment}
-                isLogin={isLogin}
-              />
-              <PrivateRoute
+              <PrivateRoute exact path="/detail/:id" component={DetailMovie} />
+              <PrivateRoute exact path="/profile" component={Profile} />
+              <PrivateRoute exact path="/payment" component={Payment} />
+              <PrivateAdminRoute
                 exact
                 path="/transaction"
                 component={Transaction}
-                isLogin={isLogin}
               />
-              <PrivateRoute
+              <PrivateAdminRoute
                 exact
                 path="/movie-list"
                 component={ListMovie}
-                isLogin={isLogin}
               />
-              <PrivateRoute
-                exact
-                path="/add-movie"
-                component={AddMovie}
-                isLogin={isLogin}
-              />
-              <PrivateRoute
+              <PrivateAdminRoute exact path="/add-movie" component={AddMovie} />
+              <PrivateAdminRoute
                 exact
                 path="/add-episode"
                 component={AddEpisode}
-                isLogin={isLogin}
               />
               <Route component={NotFound} />
             </Switch>

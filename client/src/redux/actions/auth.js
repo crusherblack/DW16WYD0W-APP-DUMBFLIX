@@ -22,7 +22,7 @@ export const loadUser = () => async (dispatch) => {
     const res = await API.get("/auth");
     dispatch({
       type: USER_LOADED,
-      payload: res.data,
+      payload: res.data.data,
     });
   } catch (err) {
     dispatch({

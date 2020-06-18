@@ -41,7 +41,11 @@ const Login = ({
 
       <Modal className="modal" show={modalLogin}>
         <h1 style={{ marginBottom: "40px" }}>LOGIN</h1>
-        {error === null || loading ? "" : error}
+        {error === null || loading ? (
+          ""
+        ) : (
+          <p style={{ textTransform: "capitalize", margin: "0 0" }}>{error}</p>
+        )}
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="form-group">
             <input
