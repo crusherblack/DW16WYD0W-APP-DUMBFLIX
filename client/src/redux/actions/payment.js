@@ -19,7 +19,7 @@ export const uploadBukti = (file, idUser, clearForm) => async (dispatch) => {
       },
     };
 
-    const res = await API.post("/transaction", formData, config);
+    await API.post("/transaction", formData, config);
 
     dispatch({
       type: PAYMENT_SUCCESS,
