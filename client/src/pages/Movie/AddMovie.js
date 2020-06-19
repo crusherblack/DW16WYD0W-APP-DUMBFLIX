@@ -5,7 +5,6 @@ import { faPaperclip, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { styles } from './Styles';
 
 const AddMovie = () => {
-	const [ categoryType, setCategoryType ] = useState('');
 	const [ episodes, setEpisodes ] = React.useState([
 		{ titleEpisode: '', attachThumbnail: '', linkFilm: '' }
 	]);
@@ -14,6 +13,7 @@ const AddMovie = () => {
 		title: '',
 		year: '',
 		description: '',
+		categoryId: '',
 		thumbnailFilm: null,
 		urlMovie: ''
 	});
@@ -25,7 +25,7 @@ const AddMovie = () => {
 		setFormData(updateForm);
 	};
 
-	const { title, year, description, urlMovie, thumbnailFilm } = formData;
+	const { title, year, description, urlMovie, thumbnailFilm, categoryId } = formData;
 
 	const addRate = () => {
 		setEpisodes([
@@ -49,7 +49,7 @@ const AddMovie = () => {
 					console.log({
 						title,
 						year,
-						categoryType,
+						categoryId,
 						description,
 						urlMovie,
 						thumbnailFilm,
@@ -126,7 +126,6 @@ const AddMovie = () => {
 							name="categoryId"
 							className="custom-select"
 							onChange={(e) => {
-								setCategoryType(e.target.value);
 								onChange(e);
 							}}
 						>
@@ -144,7 +143,7 @@ const AddMovie = () => {
 							name="description"
 						/>
 					</div>
-					{categoryType === '2' ? (
+					{categoryId === '2' ? (
 						<div className="form-group">
 							<input
 								type="text"
@@ -157,7 +156,7 @@ const AddMovie = () => {
 						</div>
 					) : null}
 
-					{categoryType === '1' ? (
+					{categoryId === '1' ? (
 						<div>
 							<div onChange={handleChange}>
 								{episodes.map((row, index) => {
