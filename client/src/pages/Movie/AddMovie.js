@@ -6,7 +6,6 @@ import { styles } from './Styles';
 
 const AddMovie = () => {
 	const [ categoryType, setCategoryType ] = useState('');
-	const [ thumbnailFilm, setthumbnailFilm ] = useState(null);
 	const [ episodes, setEpisodes ] = React.useState([
 		{ titleEpisode: '', attachThumbnail: '', linkFilm: '' }
 	]);
@@ -15,14 +14,18 @@ const AddMovie = () => {
 		title: '',
 		year: '',
 		description: '',
+		thumbnailFilm: null,
 		urlMovie: ''
 	});
 
-	const onChange = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
+	const onChange = (event) => {
+		const updateForm = { ...formData };
+		updateForm[event.target.name] =
+			event.target.type === 'file' ? event.target.files[0] : event.target.value;
+		setFormData(updateForm);
 	};
 
-	const { title, year, description, urlMovie } = formData;
+	const { title, year, description, urlMovie, thumbnailFilm } = formData;
 
 	const inputFileRef = useRef(null);
 
@@ -110,9 +113,8 @@ const AddMovie = () => {
 								type="file"
 								ref={inputFileRef}
 								style={{ display: 'none' }}
-								onChange={(e) => {
-									setthumbnailFilm(e.target.files[0]);
-								}}
+								onChange={(e) => onChange(e)}
+								name="thumbnailFilm"
 							/>
 						</div>
 					</div>
