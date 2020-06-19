@@ -20,7 +20,7 @@ const ListMovie = ({
   films: { filmsAll, loading },
   match,
 }) => {
-  const limit = 100;
+  const limit = 999;
   let category = "";
 
   useEffect(() => {
@@ -37,7 +37,6 @@ const ListMovie = ({
     } else {
       getFilmsAll(category, limit);
     }
-    console.log(e.target.value);
   };
 
   let history = useHistory();
