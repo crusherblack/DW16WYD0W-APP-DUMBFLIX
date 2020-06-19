@@ -36,7 +36,7 @@ const DetailMovie = ({
         <>
           <p>Loading</p>
         </>
-      ) : user.subscribe ? (
+      ) : user.subscribe || user.role === 1 ? (
         <>
           <div style={{ marginTop: "70px" }}>
             <VideoThumbnail
