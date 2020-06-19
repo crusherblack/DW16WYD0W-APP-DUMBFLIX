@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import '../css/Movie.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -27,8 +27,6 @@ const AddMovie = () => {
 
 	const { title, year, description, urlMovie, thumbnailFilm } = formData;
 
-	const inputFileRef = useRef(null);
-
 	const addRate = () => {
 		setEpisodes([
 			...episodes,
@@ -39,16 +37,8 @@ const AddMovie = () => {
 	const handleChange = (event) => {
 		const updateForm = [ ...episodes ];
 		updateForm[event.target.dataset.id][event.target.className] =
-			event.target.type === 'text' ? event.target.value : event.target.files[0];
+			event.target.type === 'file' ? event.target.files[0] : event.target.value;
 		setEpisodes(updateForm);
-	};
-
-	const handleSubmit = (event) => {
-		event.preventDefault();
-	};
-
-	const onBtnClick = () => {
-		inputFileRef.current.click();
 	};
 
 	return (
@@ -88,7 +78,11 @@ const AddMovie = () => {
 						<div className="form-group">
 							<button
 								type="button"
-								onClick={onBtnClick}
+								onClick={() => {
+									document
+										.getElementsByName('thumbnailFilm')[0]
+										.click();
+								}}
 								className="btn-grey"
 								style={{
 									width: '40%',
@@ -111,7 +105,6 @@ const AddMovie = () => {
 							</button>
 							<input
 								type="file"
-								ref={inputFileRef}
 								style={{ display: 'none' }}
 								onChange={(e) => onChange(e)}
 								name="thumbnailFilm"
@@ -199,7 +192,6 @@ const AddMovie = () => {
 														id={attachThumbnailId}
 														className="attachThumbnail"
 														style={styles.customInputFile}
-														ref={inputFileRef}
 													/>
 													<button
 														type="button"
