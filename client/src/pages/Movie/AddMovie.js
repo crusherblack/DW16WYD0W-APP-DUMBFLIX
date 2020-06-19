@@ -1,10 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "../css/Movie.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import AddEpisode from "../../components/AddEpisode/AddEpisode";
 
 const AddMovie = () => {
+  const [categoryType, setCategoryType] = useState("");
+
   const inputFileRef = useRef(null);
 
   const onBtnClick = () => {
@@ -54,19 +56,35 @@ const AddMovie = () => {
           </div>
         </div>
         <div className="form-group">
-          <input type="date" className="custom-input" placeholder="Year" />
+          <input type="text" className="custom-input" placeholder="Year" />
         </div>
         <div className="form-group">
-          <select name="" id="" className="custom-select">
+          <select
+            name="category"
+            className="custom-select"
+            onChange={(e) => {
+              setCategoryType(e.target.value);
+            }}
+          >
             <option value="">Category</option>
-            <option value="">TV Series</option>
-            <option value="">Movie</option>
+            <option value="tv">TV Series</option>
+            <option value="movie">Movie</option>
           </select>
         </div>
         <div className="form-group">
           <textarea type="text" className="custom-textarea" />
         </div>
-        <AddEpisode />
+        {categoryType === "movie" ? (
+          <div className="form-group">
+            <input
+              type="text"
+              className="custom-input"
+              placeholder="Url / Link Film"
+            />
+          </div>
+        ) : null}
+
+        {categoryType === "tv" ? <AddEpisode /> : null}
 
         <div className="form-group">
           <button
