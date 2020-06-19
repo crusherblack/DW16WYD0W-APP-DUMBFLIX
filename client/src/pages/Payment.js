@@ -88,7 +88,7 @@ const Payment = ({ uploadBukti, auth: { user } }) => {
               <div className="form-group">
                 <button
                   type="button"
-                  onClick={onBtnClick}
+                  onClick={() => onBtnClick()}
                   className="btn-light"
                   style={{
                     width: "100%",

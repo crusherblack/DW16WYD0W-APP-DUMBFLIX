@@ -39,6 +39,7 @@ const AddEpisode = () => {
           const titleEpisodeId = `title-${index}`,
             attachThumbnailId = `attach-${index}`,
             linkFilmId = `link-${index}`;
+
           return (
             <div key={index} style={{ marginTop: "3rem" }}>
               <div className="form-group">
@@ -69,7 +70,9 @@ const AddEpisode = () => {
                   />
                   <button
                     className="btn-grey"
-                    onClick={onBtnClick}
+                    onClick={() => {
+                      document.getElementsByName(attachThumbnailId)[0].click();
+                    }}
                     style={{
                       width: "40%",
                       height: "50px",
