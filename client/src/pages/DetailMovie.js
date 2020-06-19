@@ -43,6 +43,7 @@ const DetailMovie = ({
               thumbnail={
                 filmDetails.category.id == 1 ? tvThumbnail : moviesThumbnail
               }
+              filmDetails
             />
             {role == "admin" && filmDetails.category.id == 1 ? (
               <div
