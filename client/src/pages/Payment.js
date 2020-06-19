@@ -34,8 +34,12 @@ const Payment = () => {
     reader.readAsDataURL(fileInfo);
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
+    uploadBukti();
+  };
+
+  const uploadBukti = async () => {
     try {
       const formData = new FormData();
 
@@ -51,9 +55,9 @@ const Payment = () => {
         },
       };
       const res = await API.post("/transaction", formData, config);
-      console.log({ file, accountNumber });
+      console.log(res);
     } catch (e) {
-      console.log(e.response);
+      console.log(e.response.data);
     }
   };
 
@@ -79,7 +83,7 @@ const Payment = () => {
             <span className="red">DUMBFLIX </span> <br />{" "}
             <span className="red">DUMBFLIX </span> : 0981312323
           </p>
-          <form action="" onSubmit={(e) => onSubmit(e)}>
+          <form onSubmit={(e) => onSubmit(e)}>
             <div className="form-payment">
               <div className="form-group">
                 <input
@@ -93,6 +97,7 @@ const Payment = () => {
               </div>
               <div className="form-group">
                 <button
+                  type="button"
                   onClick={onBtnClick}
                   className="btn-light"
                   style={{
@@ -121,7 +126,7 @@ const Payment = () => {
                   ref={inputFileRef}
                   style={{ display: "none" }}
                 />
-                <img src={previewSrc} />
+                <img src={previewSrc} className="preview-src" />
               </div>
 
               <div className="form-group">
