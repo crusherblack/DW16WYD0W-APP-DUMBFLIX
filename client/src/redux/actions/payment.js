@@ -1,4 +1,5 @@
 import { API } from "../../config/api";
+import moment from "moment";
 
 import { PAYMENT_ERROR, PAYMENT_SUCCESS } from "./types";
 
@@ -7,8 +8,8 @@ export const uploadBukti = (file, idUser, clearForm) => async (dispatch) => {
   try {
     const formData = new FormData();
 
-    formData.append("startDate", "06-30-2020");
-    formData.append("dueDate", "06-30-2020");
+    formData.append("startDate", moment());
+    formData.append("dueDate", moment());
     formData.append("userId", idUser);
     formData.append("attache", file);
     formData.append("status", "Pending");
@@ -26,7 +27,6 @@ export const uploadBukti = (file, idUser, clearForm) => async (dispatch) => {
     });
     clearForm();
   } catch (e) {
-    console.log(e.response.data);
     dispatch({
       type: PAYMENT_ERROR,
     });
