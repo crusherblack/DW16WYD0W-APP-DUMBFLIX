@@ -3,8 +3,12 @@ import "./css/Payment.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import { API } from "../config/api";
+import { uploadBukti } from "../redux/actions/payment";
 
-const Payment = () => {
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+const Payment = ({ uploadBukti, auth: { user } }) => {
   const [formData, setFormData] = useState({
     accountNumber: "",
   });
@@ -34,31 +38,17 @@ const Payment = () => {
     reader.readAsDataURL(fileInfo);
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    uploadBukti();
+  const clearForm = () => {
+    setFormData({
+      accountNumber: "",
+    });
+    setPreviewSrc(null);
   };
 
-  const uploadBukti = async () => {
-    try {
-      const formData = new FormData();
-
-      formData.append("startDate", "06-30-2020");
-      formData.append("dueDate", "06-30-2020");
-      formData.append("userId", 11);
-      formData.append("attache", file);
-      formData.append("status", "Pending");
-
-      const config = {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      };
-      const res = await API.post("/transaction", formData, config);
-      console.log(res);
-    } catch (e) {
-      console.log(e.response.data);
-    }
+  const onSubmit = (e) => {
+    const userId = user.id;
+    e.preventDefault();
+    uploadBukti(file, userId, clearForm);
   };
 
   const inputFileRef = useRef(null);
@@ -150,4 +140,13 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+Payment.propTypes = {
+  uploadBukti: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { uploadBukti })(Payment);
