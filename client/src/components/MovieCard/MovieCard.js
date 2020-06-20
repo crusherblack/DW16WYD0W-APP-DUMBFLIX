@@ -9,7 +9,11 @@ const MovieCard = ({ movie: { id, title, year, thumbnailFilm, category } }) => {
     <div>
       <img
         className="card"
-        src={thumbnailFilm}
+        src={`http://localhost:5000/uploads/${thumbnailFilm}`}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = thumbnailFilm;
+        }}
         onClick={() => history.push(`/detail/${id}`)}
         style={{ height: "auto" }}
       />

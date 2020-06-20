@@ -138,13 +138,22 @@ exports.getDetailFilm = async (req, res) => {
       where: {
         id,
       },
-      include: {
-        model: Category,
-        as: "category",
-        attributes: {
-          exclude: ["createdAt", "updatedAt"],
+      include: [
+        {
+          model: Episode,
+          as: "episodes",
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "filmId", "FilmId"],
+          },
         },
-      },
+        {
+          model: Category,
+          as: "category",
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+      ],
       attributes: {
         exclude: ["createdAt", "updatedAt", "categoryId"],
       },
@@ -173,10 +182,9 @@ exports.addFilm = async (req, res) => {
   try {
     const schema = Joi.object({
       title: Joi.string().min(3).required(),
-      thumbnailFilm: Joi.string().required(),
-      year: Joi.number().integer().min(1900).max(2020).required(),
-      category: Joi.required(),
-      description: Joi.string().min(10).required(),
+      year: Joi.string().required(),
+      categoryId: Joi.required(),
+      description: Joi.string().required(),
     });
     const { error } = schema.validate(req.body);
 
@@ -187,11 +195,11 @@ exports.addFilm = async (req, res) => {
         },
       });
 
-    const { category } = req.body;
+    const { categoryId } = req.body;
 
     const cekCategory = await Category.findOne({
       where: {
-        id: category.id,
+        id: categoryId,
       },
     });
 
@@ -202,7 +210,8 @@ exports.addFilm = async (req, res) => {
 
     const film = await Film.create({
       ...req.body,
-      categoryId: category.id,
+      categoryId,
+      thumbnailFilm: req.file.filename,
     });
 
     if (film) {

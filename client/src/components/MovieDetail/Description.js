@@ -8,7 +8,15 @@ const Description = ({
     <div className="description-container">
       <div className="movie">
         <div className="movie-image">
-          <img src={thumbnailFilm} alt={title} />
+          <img
+            alt={title}
+            src={`http://localhost:5000/uploads/${thumbnailFilm}`}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = thumbnailFilm;
+            }}
+            style={{ width: "200px" }}
+          />
         </div>
         <div className="movie-description">
           <h1>{title}</h1>

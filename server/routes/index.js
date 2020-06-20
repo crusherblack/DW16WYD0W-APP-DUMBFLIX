@@ -51,7 +51,7 @@ router.delete("/user/:id", auth, authAdmin, deleteUser);
 // Film Routes
 router.get("/film", getFilm);
 router.get("/film/:id", getDetailFilm);
-router.post("/film", auth, authAdmin, addFilm);
+router.post("/film", auth, authAdmin, upload("thumbnailFilm"), addFilm);
 router.patch("/film/:id", auth, authAdmin, editFilm);
 router.delete("/film/:id", auth, authAdmin, deleteFilm);
 
@@ -68,7 +68,7 @@ router.patch("/transaction/:id", auth, authAdmin, editTransaction);
 router.delete("/transaction/:id", auth, authAdmin, deleteTransaction);
 
 // Episode Routes
-router.post("/episode", auth, authAdmin, addEpisode);
+router.post("/episode", auth, authAdmin, upload("thumbnailFilm"), addEpisode);
 router.get("/film/:id/episodes", auth, authAdmin, getEpisodesByFilm);
 router.get("/episodes/:idEpisode", auth, authAdmin, getDetailEpisode);
 router.patch("/episode/:id", auth, authAdmin, editEpisode);
