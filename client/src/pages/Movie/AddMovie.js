@@ -41,26 +41,39 @@ const AddMovie = () => {
 		setEpisodes(updateForm);
 	};
 
+	const onSubmit = (e) => {
+		e.preventDefault();
+
+		let data = {};
+		if (categoryId === '1') {
+			data = {
+				title,
+				year,
+				categoryId,
+				description,
+				thumbnailFilm,
+				episodes
+			};
+		} else if (categoryId === '2') {
+			data = {
+				title,
+				year,
+				categoryId,
+				description,
+				urlMovie,
+				thumbnailFilm
+			};
+		}
+
+		console.log(data);
+	};
+
 	return (
 		<div className="container">
-			<form
-				onSubmit={(e) => {
-					e.preventDefault();
-					console.log({
-						title,
-						year,
-						categoryId,
-						description,
-						urlMovie,
-						thumbnailFilm,
-						episodes
-					});
-				}}
-			>
+			<form onSubmit={(e) => onSubmit(e)}>
 				<div className="list-movie">
 					<h2>Add Film</h2>
 					<br />
-
 					<div className="satuline">
 						<div className="form-group">
 							<input
