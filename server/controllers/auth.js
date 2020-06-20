@@ -47,7 +47,7 @@ exports.login = async (req, res) => {
     if (!user)
       return res.status(400).send({
         error: {
-          message: "Wrong Username or Password",
+          message: "Wrong Email or Password",
         },
       });
 
@@ -56,7 +56,7 @@ exports.login = async (req, res) => {
     if (!validPass)
       return res.status(400).send({
         error: {
-          message: "Wrong Username or Password",
+          message: "Wrong Email or Password",
         },
       });
 
