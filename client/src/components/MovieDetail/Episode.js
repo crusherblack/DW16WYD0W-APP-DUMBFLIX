@@ -2,21 +2,36 @@ import React, { useState } from 'react';
 import './MovieDetails.css';
 import episodeThumbnail from '../../img/videothumbnail/smallvideo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 
 import Carousel from 'nuka-carousel';
 
 const Episode = ({ name, episodes, handlePlayNow }) => {
+	const [ index, setIndex ] = useState(0);
+	let imageIndex = `image-${index}`;
+
 	return (
 		<div className="episode-container">
 			<div className="play-now">
+				<div className="icon-play">
+					<FontAwesomeIcon
+						icon={faPlayCircle}
+						onClick={() => document.getElementsByName(imageIndex)[0].click()}
+					/>
+				</div>
+
 				<Carousel height="300px" width="500px">
 					{episodes.map((episode, index) => (
 						<img
 							src={`http://localhost:5000/uploads/${episode.thumbnailFilm}`}
 							alt="image"
+							name={`image-${index}`}
 							key={index}
-							onClick={() => handlePlayNow(episode.linkFilm)}
+							onClick={() => {
+								handlePlayNow(episode.linkFilm);
+							}}
+							onMouseEnter={() => setIndex(index)}
+							onMouseLeave={() => setIndex(index)}
 						/>
 					))}
 				</Carousel>

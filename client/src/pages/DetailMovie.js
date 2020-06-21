@@ -19,7 +19,7 @@ const DetailMovie = ({
 	film: { filmDetails, loading },
 	auth: { user }
 }) => {
-	const [ playNow, setPlayNow ] = useState('');
+	const [ playNow, setPlayNow ] = useState(null);
 
 	const handlePlayNow = (url) => {
 		setPlayNow(url);

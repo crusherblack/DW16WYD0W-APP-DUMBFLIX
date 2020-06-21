@@ -94,3 +94,20 @@
   align-self: center;
   color: #e50914;
 }
+
+.icon-play {
+  position: absolute;
+  top: 38%;
+  font-size: 70px;
+  align-self: center;
+  color: #e50914;
+  z-index: 1;
+
+}
+
+
+.icon-play:hover {
+  cursor: pointer;
+  opacity: 0.8;
+
+}
