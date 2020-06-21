@@ -20,9 +20,13 @@ const Episode = ({ name, episodes, handlePlayNow }) => {
 					/>
 				</div>
 
-				<Carousel height="300px" width="500px">
+				<Carousel>
 					{episodes.map((episode, index) => (
 						<img
+							style={{
+								height: '300px',
+								width: '500px'
+							}}
 							src={`http://localhost:5000/uploads/${episode.thumbnailFilm}`}
 							alt="image"
 							name={`image-${index}`}
