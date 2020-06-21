@@ -33,10 +33,14 @@ export default function(state = initialState, actions) {
 			return {
 				...state,
 				transaction: state.transaction.map(
-					(transaction) =>
-						transaction.id === payload.id
-							? { ...transaction, payload }
-							: transaction
+					(data) =>
+						data.id == payload.id
+							? {
+									...data,
+									status: payload.status,
+									userInfo: payload.userInfo
+								}
+							: data
 				),
 				loading: false
 			};

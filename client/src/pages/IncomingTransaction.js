@@ -27,8 +27,14 @@ const IncomingTransaction = ({
 		<tr key={data.id}>
 			<td>{index + 1}</td>
 			<td>{data.userInfo.fullName}</td>
-			<td>{data.startDate}</td>
-			<td>{data.dueDate}</td>
+			<td>
+				<img
+					style={{ width: '200px' }}
+					src={`http://localhost:5000/uploads/${data.attache}`}
+					alt="data"
+				/>
+			</td>
+			<td>{data.userInfo.dueDate}</td>
 			<td
 				style={{
 					color: data.userInfo.subscribe ? '#0ACF83' : '#FF0742'
@@ -54,37 +60,39 @@ const IncomingTransaction = ({
 						color: '#1C9CD2'
 					}}
 				>
-					<div className="dropdown">
-						<div className="dropdown-content">
-							<label htmlFor="">
-								<ul>
-									<li
-										style={{ color: '#0ACF83' }}
-										onClick={() =>
-											handleUpdate(
-												'Approved',
-												data.id,
-												data.userInfo.id
-											)}
-									>
-										Aktifasi
-									</li>
-									<li
-										style={{ color: 'red' }}
-										onClick={() =>
-											handleUpdate(
-												'Reject',
-												data.id,
-												data.userInfo.id
-											)}
-									>
-										Reject
-									</li>
-								</ul>
-							</label>
+					{data.status === 'Approved' || data.status === 'Reject' ? null : (
+						<div className="dropdown">
+							<div className="dropdown-content">
+								<label htmlFor="">
+									<ul>
+										<li
+											style={{ color: '#0ACF83' }}
+											onClick={() =>
+												handleUpdate(
+													'Approved',
+													data.id,
+													data.userInfo.id
+												)}
+										>
+											Aktifasi
+										</li>
+										<li
+											style={{ color: 'red' }}
+											onClick={() =>
+												handleUpdate(
+													'Reject',
+													data.id,
+													data.userInfo.id
+												)}
+										>
+											Reject
+										</li>
+									</ul>
+								</label>
+							</div>
+							<FontAwesomeIcon icon={faCaretDown} />
 						</div>
-						<FontAwesomeIcon icon={faCaretDown} />
-					</div>
+					)}
 				</span>
 			</td>
 		</tr>
