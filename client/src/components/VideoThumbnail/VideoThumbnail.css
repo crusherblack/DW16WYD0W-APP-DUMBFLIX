@@ -18,6 +18,11 @@
   cursor: pointer;
 }
 
+.video-image:hover {
+  opacity: 0.9;
+}
+
+
 @media (max-width: 700px) {
   .player-wrapper {
     padding-top: 70%;
