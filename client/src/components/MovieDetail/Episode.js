@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MovieDetails.css';
 import episodeThumbnail from '../../img/videothumbnail/smallvideo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +8,7 @@ import Carousel from 'nuka-carousel';
 
 const Episode = ({ name, episodes, handlePlayNow }) => {
 	const [ index, setIndex ] = useState(0);
-	const [ episode, setEpisode ] = useState(episodes[0].title);
+	const [ episode, setEpisode ] = useState('');
 	let imageIndex = `image-${index}`;
 
 	return (
@@ -44,9 +44,7 @@ const Episode = ({ name, episodes, handlePlayNow }) => {
 						/>
 					))}
 				</Carousel>
-				<p>
-					Playing Now: {name}-{episode}
-				</p>
+				<p>Now Playing: {name === episode ? name : name + ' ' + episode}</p>
 			</div>
 		</div>
 	);
