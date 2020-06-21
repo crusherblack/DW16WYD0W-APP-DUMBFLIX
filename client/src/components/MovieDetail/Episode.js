@@ -8,6 +8,7 @@ import Carousel from 'nuka-carousel';
 
 const Episode = ({ name, episodes, handlePlayNow }) => {
 	const [ index, setIndex ] = useState(0);
+	const [ episode, setEpisode ] = useState(episodes[0].title);
 	let imageIndex = `image-${index}`;
 
 	return (
@@ -19,7 +20,6 @@ const Episode = ({ name, episodes, handlePlayNow }) => {
 						onClick={() => document.getElementsByName(imageIndex)[0].click()}
 					/>
 				</div>
-
 				<Carousel>
 					{episodes.map((episode, index) => (
 						<img
@@ -32,13 +32,21 @@ const Episode = ({ name, episodes, handlePlayNow }) => {
 							name={`image-${index}`}
 							key={index}
 							onClick={() => {
+								setEpisode(episode.title);
 								handlePlayNow(episode.linkFilm);
 							}}
-							onMouseEnter={() => setIndex(index)}
-							onMouseLeave={() => setIndex(index)}
+							onMouseEnter={() => {
+								setIndex(index);
+							}}
+							onMouseLeave={() => {
+								setIndex(index);
+							}}
 						/>
 					))}
 				</Carousel>
+				<p>
+					Playing Now: {name}-{episode}
+				</p>
 			</div>
 		</div>
 	);
