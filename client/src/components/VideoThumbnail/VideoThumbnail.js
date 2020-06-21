@@ -5,8 +5,9 @@ import ReactPlayer from 'react-player/lazy';
 import './VideoThumbnail.css';
 import thumbnail from '../../img/videothumbnail/playnow.png';
 
-const VideoThumbnail = ({ playNow }) => {
+const VideoThumbnail = ({ handlePlayNow, playNow, defaultUrl }) => {
 	let type = '';
+	console.log(defaultUrl);
 
 	return !playNow ? (
 		<div
@@ -16,6 +17,7 @@ const VideoThumbnail = ({ playNow }) => {
 				background: `linear-gradient(to bottom, rgba(0,0, 0, 0), black), url('${thumbnail}'), #1c1c1c`
 			}}
 			className="video-image"
+			onClick={() => handlePlayNow(defaultUrl)}
 		/>
 	) : (
 		<div className="video">
@@ -26,7 +28,6 @@ const VideoThumbnail = ({ playNow }) => {
 					width="100%"
 					height="100%"
 					controls={true}
-					light={true}
 				/>
 			</div>
 		</div>

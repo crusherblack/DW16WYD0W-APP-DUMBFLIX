@@ -49,6 +49,8 @@ const DetailMovie = ({
 				<div>
 					<div style={{ marginTop: '70px' }}>
 						<VideoThumbnail
+							handlePlayNow={handlePlayNow}
+							defaultUrl={filmDetails.episodes[0].linkFilm}
 							playNow={playNow}
 							thumbnail={
 								filmDetails.category.id == 1 ? (
