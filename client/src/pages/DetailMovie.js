@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import VideoThumbnail from '../components/VideoThumbnail/VideoThumbnail';
 import Description from '../components/MovieDetail/Description';
 import Episode from '../components/MovieDetail/Episode';
-import Movie from '../components/MovieDetail/Movie';
+import DetailSkeleton from '../components/Skeleton/DetailSkeleton';
 import './css/DetailMovie.css';
 
 import moviesThumbnail from '../img/videothumbnail/video2.png';
@@ -19,11 +19,20 @@ const DetailMovie = ({
 	film: { filmDetails, loading },
 	auth: { user }
 }) => {
+	const [ loadingSkeleton, setLoadingSkeleton ] = useState(true);
 	const [ playNow, setPlayNow ] = useState(null);
 
 	const handlePlayNow = (url) => {
 		setPlayNow(url);
 	};
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setLoadingSkeleton(false);
+		}, 1200);
+
+		return () => clearTimeout(timer);
+	}, []);
 
 	useEffect(
 		() => {
@@ -41,9 +50,9 @@ const DetailMovie = ({
 
 	return (
 		<div>
-			{filmDetails === null || loading ? (
+			{loadingSkeleton || filmDetails === null || loading ? (
 				<div>
-					<p>Loading</p>
+					<DetailSkeleton />
 				</div>
 			) : user.subscribe || user.role === 1 ? (
 				<div>
