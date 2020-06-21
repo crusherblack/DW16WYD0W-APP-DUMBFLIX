@@ -54,3 +54,23 @@
 	gap: 1.7rem;
 	grid-template-columns: repeat(2, 1fr);
 }
+
+.preview-container {
+	margin-top: 4rem;
+	width: 100%;
+
+}
+
+.preview-container ul li {
+	color: white;
+
+}
+
+.preview-container h1 {
+	color: white;
+}
+
+.preview-container .preview-film {
+	display: inline-block;
+	width: 200px;
+}
