@@ -32,6 +32,9 @@ module.exports = {
 			subscribe: {
 				type: Sequelize.BOOLEAN
 			},
+			dueDate: {
+				type: Sequelize.DATEONLY
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE

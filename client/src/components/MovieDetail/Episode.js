@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MovieDetails.css';
-import episodeThumbnail from '../../img/videothumbnail/smallvideo.png';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 

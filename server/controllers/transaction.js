@@ -1,5 +1,6 @@
 const { Transaction, User } = require('../models');
 const Joi = require('@hapi/joi');
+const dayjs = require('dayjs');
 
 exports.getTransaction = async (req, res) => {
 	try {
@@ -13,7 +14,8 @@ exports.getTransaction = async (req, res) => {
 			},
 			attributes: {
 				exclude: [ 'createdAt', 'updatedAt' ]
-			}
+			},
+			order: [ [ 'createdAt', 'DESC' ] ]
 		});
 
 		if (transaction) {
@@ -91,14 +93,11 @@ exports.addTransaction = async (req, res) => {
 exports.editTransaction = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { status, userId } = req.body;
+		const { status, idUser } = req.body;
 
 		const schema = Joi.object({
-			startDate: Joi.date().required(),
-			dueDate: Joi.date().required(),
-			userId: Joi.number().required(),
-			attache: Joi.required(),
-			status: Joi.string().required()
+			status: Joi.string().required(),
+			idUser: Joi.required()
 		});
 		const { error } = schema.validate(req.body);
 
@@ -128,20 +127,23 @@ exports.editTransaction = async (req, res) => {
 			}
 		});
 
-		if (transaction) {
-			let subscribeStatus = false;
-			if (status == 'Approved') subscribeStatus = true;
+		let now = dayjs();
+		let dueDate = now.add('30', 'day');
 
-			await User.update(
-				{
-					subscribe: subscribeStatus
-				},
-				{
-					where: {
-						id: userId
-					}
+		let update = {};
+		if (status == 'Approved') {
+			update.subscribe = true;
+			update.dueDate = dueDate.format('YYYY-MM-DD');
+		}
+
+		console.log(update);
+
+		if (transaction) {
+			await User.update(update, {
+				where: {
+					id: idUser
 				}
-			);
+			});
 
 			const resultTransaction = await Transaction.findOne({
 				where: {
@@ -166,7 +168,9 @@ exports.editTransaction = async (req, res) => {
 			});
 		} else {
 			return res.status(400).send({
-				message: 'Please Try Again'
+				error: {
+					message: 'Try Again'
+				}
 			});
 		}
 	} catch (error) {
