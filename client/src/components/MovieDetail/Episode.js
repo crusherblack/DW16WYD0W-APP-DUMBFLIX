@@ -4,18 +4,22 @@ import episodeThumbnail from '../../img/videothumbnail/smallvideo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-const Episode = ({ name }) => {
-	const [ imageIndex, setImageIndex ] = useState(0);
+import Carousel from 'nuka-carousel';
 
+const Episode = ({ name, episodes, handlePlayNow }) => {
 	return (
 		<div className="episode-container">
 			<div className="play-now">
-				<img src={episodeThumbnail} alt="episode" className="mini-img" />
-				<label className="img-play-now">In Play Now</label>
-				<p className="small-desc">{name}: Episode 1</p>
-				<div className="arrow-right">
-					<FontAwesomeIcon icon={faChevronRight} />
-				</div>
+				<Carousel height="300px" width="500px">
+					{episodes.map((episode, index) => (
+						<img
+							src={`http://localhost:5000/uploads/${episode.thumbnailFilm}`}
+							alt="image"
+							key={index}
+							onClick={() => handlePlayNow(episode.linkFilm)}
+						/>
+					))}
+				</Carousel>
 			</div>
 		</div>
 	);
