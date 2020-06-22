@@ -155,7 +155,7 @@ exports.getDetailFilm = async (req, res) => {
           },
         },
       ],
-      order: [[{ model: Episode, as: "episodes" }, "id", "DESC"]],
+      order: [[{ model: Episode, as: "episodes" }, "title", "ASC"]],
       attributes: {
         exclude: ["createdAt", "updatedAt", "categoryId"],
       },
